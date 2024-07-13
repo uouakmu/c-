@@ -1,19 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-int compare (const void *a, const void *b) {
-    return (*(char*)b - *(char*)a);
+typedef struct {
+    int x;
+    int y;
+} Coordinate;
 
+int compare(const void *a, const void *b) {
+    Coordinate *cA  = (Coordinate *)a;
+    Coordinate *cB  = (Coordinate *)b;
+    if (cA->x != cB->x) {
+        return cA->x - cB->x;
+    } else {
+        return cA->y - cB->y;
+    }
 }
-    
+
 int main() {
-    char num[11];
-    scanf("%s",num);
+    int n;
+    scanf("%d", &n);
 
-    qsort(num,strlen(num),sizeof(char),compare);
-    printf("%s\n",num);
-    printf("3차 수정 테스트\n");
+    Coordinate *coordinates = (Coordinate *)malloc(n * sizeof(Coordinate));
 
-    return 0;
+    for (int i=0; i<n; i++) {
+        scanf("%d %d", &coordinates[i].x, &coordinates[i].y);
+    }
+
+    qsort(coordinates, n, sizeof(Coordinate), compare);
+
+    for (int i=0; i<n; i++) {
+        printf("%d %d\n",coordinates[i].x, coordinates[i].y);
+    }
+
+    free(coordinates);
 }
